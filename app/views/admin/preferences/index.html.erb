@@ -1,32 +1,21 @@
-<h1>Admin: App Preference Settings </h1>
-<% if flash[:alert] %>
-	<div><p><%= flash[:alert] %></p></div>
-<% end %>
-<%= form_for @preference, url: admin_preference_path(@preference) do |f| %>
-
-  <div>
-    <%= f.label :allow_create_artists %><br>
-    True: <%= f.radio_button :allow_create_artists, true %>
-    False: <%= f.radio_button :allow_create_artists, false %>
-  </div>
-
-  <div>
-    <%= f.label :allow_create_songs %><br>
-    True: <%= f.radio_button :allow_create_songs, true %>
-    False: <%= f.radio_button :allow_create_songs, false %>
-  </div>
-
-  <div>
-    <%= f.label :song_sort_order %><br>
-    True: <%= f.radio_button :song_sort_order, "ASC" %>
-    False: <%= f.radio_button :song_sort_order, "DESC" %>
-  </div>
-
-  <div>
-    <%= f.label :artist_sort_order %><br>
-    True: <%= f.radio_button :artist_sort_order, "ASC" %>
-    False: <%= f.radio_button :artist_sort_order, "DESC" %>
-  </div>
-
-  <%= f.submit %>
+<%= form_for(@preference, url: admin_preferences_path) do |f| %>
+  <%= f.label :song_sort_order, value: "Song sort order:" %>
+  <%= f.select :song_sort_order, options_for_select([["Descending", "DESC"], ["Ascending", "ASC"]]) %>
+  <br>
+  <%= f.label :artist_sort_order, value: "Artist sort order:" %>
+  <%= f.select :artist_sort_order, options_for_select([["Descending", "DESC"], ["Ascending", "ASC"]]) %>
+  <br>
+  <h3>Create Song</h3>
+  <%= f.fields_for(@song) do |song_builder| %>
+    <%= song_builder.label :title, value: "Song title:" %>
+    <%= song_builder.text_field :title %>
+  <% end %>
+  <br>
+  <h3>Create Artist</h3>
+  <%= f.fields_for(@artist) do |song_builder| %>
+    <%= song_builder.label :name, value: "Artist name:" %>
+    <%= song_builder.text_field :name %>
+  <% end %>
+  <br><br>
+  <%= f.submit value: "Update Preferences" %>
 <% end %> 
